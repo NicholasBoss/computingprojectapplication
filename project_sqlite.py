@@ -1,14 +1,7 @@
-import mysql.connector
 import streamlit as st
 import sqlite3
 import pandas as pd
 from datetime import datetime
-# MySQL: Uncomment the following imports
-# from insert_mysql import *
-# from update_mysql import *
-# from delete_mysql import *
-# from create_mysqldb_from_file import *
-# SQLite: Uncomment the following imports
 from insert_sqlite import *
 from update_sqlite import *
 from delete_sqlite import *
@@ -26,16 +19,6 @@ def format_list(list):
     new_list = new_list.replace(',', '')
     return new_list
 
-# Comment out lines 25 - 31 if you are using SQLite
-# projectdb = mysql.connector.connect(
-#     host='localhost',
-#     user='project_manager',
-#     password='manager',
-#     database='project'
-# )
-# studentcursor = projectdb.cursor()
-
-# Uncomment lines 34 - 35 if you are using SQLite
 projectdb = sqlite3.connect('project.db')
 studentcursor = projectdb.cursor()
 
@@ -93,7 +76,7 @@ if (username == 'student' and password == 'student') or (username == 'bos18002@b
             studentcursor.execute("SELECT username FROM user")
             users = studentcursor.fetchall()
             users = format_list(users)
-        except mysql.connector.Error as err:
+        except sqlite3.Error as err:
             st.write(f'Table does not exist: {err}')
 
         if username not in users:
@@ -122,7 +105,7 @@ if (username == 'student' and password == 'student') or (username == 'bos18002@b
             # studentcursor.execute("USE project")
             studentcursor.execute("SELECT user_project_id FROM user_project WHERE user_project_id IS NOT NULL")
             users = studentcursor.fetchall()
-        except mysql.connector.Error as err:
+        except sqlite3.Error as err:
             # st.write(f'Table does not exist: {err}')
             users = None
 
@@ -173,7 +156,7 @@ if (username == 'student' and password == 'student') or (username == 'bos18002@b
             # studentcursor.execute("USE project")
             studentcursor.execute("SELECT user_project_id FROM user_project WHERE user_project_id IS NOT NULL")
             users = studentcursor.fetchall()
-        except mysql.connector.Error as err:
+        except sqlite3.Error as err:
             # st.write(f'Table does not exist: {err}')
             users = None
 
@@ -211,7 +194,7 @@ if view:
         # studentcursor.execute("USE project")
         studentcursor.execute("SELECT user_project_id FROM user_project WHERE user_project_id IS NOT NULL")
         users = studentcursor.fetchall()
-    except mysql.connector.Error as err:
+    except sqlite3.Error as err:
         # st.write(f'Table does not exist: {err}')
         users = None
 

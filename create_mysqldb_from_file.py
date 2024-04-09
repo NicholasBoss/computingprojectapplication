@@ -1,5 +1,4 @@
 import mysql.connector
-import sqlite3
 class create:
 
     def __init__(self, db_cursor, db_connection):
