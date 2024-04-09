@@ -51,7 +51,7 @@ if (username == 'student' and password == 'student') or (username == 'bos18002@b
     #     password = None
     #     # stop the program
     #     st.stop()
-    st.write("To reset the database, you must select the `Select An Option` choice first, then select `Reset Database`")
+    
 
     # The current date
     now = datetime.now()
@@ -61,6 +61,7 @@ if (username == 'student' and password == 'student') or (username == 'bos18002@b
 
     # add a dropdown for the options
     if username == 'bos18002@byui.edu' and password == 'admin':
+        st.write("To reset the database, you must select the `Select An Option` choice first, then select `Reset Database`")
         username = 'Admin'
         options = ['Select An Option','Reset Database', 'Add Project', 'Update Project', 'Delete Project']
         option = st.selectbox('Select an option', options)
