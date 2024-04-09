@@ -88,7 +88,7 @@ if (username == 'student' and password == 'student') or (username == 'bos18002@b
             st.write(f'Table does not exist: {err}')
 
         if username not in users:
-            print('User does not exist in the database')
+            # print('User does not exist in the database')
             st.write('User does not exist in the database')
             studentcursor.execute("INSERT INTO user (username) VALUES (%s)", (username,))
             projectdb.commit()
