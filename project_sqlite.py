@@ -6,6 +6,7 @@ from insert_sqlite import *
 from update_sqlite import *
 from delete_sqlite import *
 from create_sqlitedb_from_file import *
+from credentials import *
 
 
 def format_list(list):
@@ -30,7 +31,10 @@ placeholder = st.empty()
 username = placeholder1.text_input('Enter your username: ', key='1')
 password = placeholder.text_input('Enter your password: ', type='password', key='2')
 
-if (username == 'student' and password == 'student') or (username == 'bos18002@byui.edu' and password == 'admin'):
+# check credentials from the credentials.py file
+# print(f'USERNAME: {credentials["admin"]["username"]}')
+
+if (username == credentials["student"]["username"] and password == credentials["student"]["password"]) or (username == credentials["admin"]["username"] and password == credentials["admin"]["password"]):
     st.success('Login successful!')
     st.write('\n')
     # logout = st.button('Logout')

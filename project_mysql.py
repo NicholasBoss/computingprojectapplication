@@ -5,6 +5,7 @@ from datetime import datetime
 from insert_mysql import *
 from update_mysql import *
 from delete_mysql import *
+from create_user import *
 from create_mysqldb_from_file import *
 
 
@@ -59,6 +60,8 @@ if (username == 'student' and password == 'student') or (username == 'bos18002@b
     # current_date = '2024-04-01'
     st.write('Current date:', current_date)
 
+    
+
     # add a dropdown for the options
     if username == 'bos18002@byui.edu' and password == 'admin':
         st.write("To reset the database, you must select the `Select An Option` choice first, then select `Reset Database`")
@@ -69,38 +72,30 @@ if (username == 'student' and password == 'student') or (username == 'bos18002@b
         options = ['Select An Option', 'Add Project']
         option = st.selectbox('Select an option', options)
     # print(option)
-        
     
+    # check to see if user exists using the create_user class
+    create_user = user(studentcursor, projectdb)
+    user_exists = create_user.create_user(username)
+    # print(user_exists)
+    if user_exists:
+        # st.write('User exists in the database')
+        st.write(f'Welcome `{username}`')
+    else:
+        st.write('User does not exist in the database')
+        # create user
+        create_user.create_user(username)
+        st.write(f'Welcome `{username}`')
+        # st.stop()
 
     if option == 'Reset Database':
+        studentcursor = projectdb.cursor()
         reset = create(studentcursor, projectdb)
         reset.create_db()
         st.write('Database reset successful')
 
     elif option == 'Add Project':
-        # print(f'USERS: {users}')
-        users = ''
-        try:
-            # insert the user into the database if they are not already there
-            studentcursor.execute("SELECT username FROM user")
-            users = studentcursor.fetchall()
-            users = format_list(users)
-        except mysql.connector.Error as err:
-            st.write(f'Table does not exist: {err}')
-
-        if username not in users:
-            # print('User does not exist in the database')
-            st.write('User does not exist in the database')
-            studentcursor.execute("INSERT INTO user (username) VALUES (%s)", (username,))
-            projectdb.commit()
-            st.write('User inserted into the database')
-
-        if username in users:
-            st.write(f'`{username}` user active')
-            # st.write(f"USER ID: {user_id}")
-
-
-        
+        studentcursor = projectdb.cursor()
+    
         project_name = st.text_input('Enter the project name: ')
         project_description = st.text_input('Enter the project description: ')
         confirm_insert = st.button('Insert data')
@@ -109,6 +104,7 @@ if (username == 'student' and password == 'student') or (username == 'bos18002@b
             insert_data.insert_data(project_name, project_description, username, current_date)
             st.write('Data inserted successfully!')
     elif option == 'Update Project':
+        studentcursor = projectdb.cursor()
         # Check for users in the database
         try:
             studentcursor.execute("USE projectdb")
@@ -160,6 +156,7 @@ if (username == 'student' and password == 'student') or (username == 'bos18002@b
                 st.write('Data updated successfully!')
 
     elif option == 'Delete Project':
+        studentcursor = projectdb.cursor()
         # Check for users in the database
         try:
             studentcursor.execute("USE projectdb")
