@@ -1,5 +1,15 @@
-import mysql.connector
-import streamlit as st
+try:
+    import mysql.connector
+except ImportError:
+    import os
+    os.system('pip install mysql-connector-python')
+    import mysql.connector
+try:
+    import streamlit as st
+except ImportError:
+    import os
+    os.system('pip install streamlit')
+    import streamlit as st
 import pandas as pd
 from datetime import datetime
 from insert_mysql import *

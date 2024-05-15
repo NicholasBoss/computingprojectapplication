@@ -1,4 +1,9 @@
-import streamlit as st
+try:
+    import streamlit as st
+except ImportError:
+    import os
+    os.system('pip install streamlit')
+    import streamlit as st
 import sqlite3
 import pandas as pd
 from datetime import datetime
