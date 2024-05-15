@@ -1,4 +1,4 @@
-import mysql.connector
+import sqlite3
 class user:
 
     def __init__(self, studentcursor, projectdb):
@@ -18,7 +18,6 @@ class user:
 
     def create_user(self, username):
         try:
-            self.studentcursor.execute("USE projectdb")
             # Check to see if user exists in the database
             self.studentcursor.execute("SELECT username FROM user")
             users = self.studentcursor.fetchall()
@@ -29,10 +28,10 @@ class user:
                 return True, username
             # Insert the user into the database if they are not already there
             else:
-                self.studentcursor.execute("INSERT INTO user (username) VALUES (%s)", (username,))
+                self.studentcursor.execute("INSERT INTO user (username) VALUES (?)", (username,))
                 self.projectdb.commit()
                 print('User inserted successfully')
                 return True, username
-        except mysql.connector.Error as err:
+        except sqlite3.connector.Error as err:
             print(f'Error: {err}')
             return False

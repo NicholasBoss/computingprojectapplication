@@ -7,6 +7,7 @@ from update_sqlite import *
 from delete_sqlite import *
 from create_sqlitedb_from_file import *
 from credentials import *
+from create_sqlite_user import *
 
 
 def format_list(list):
@@ -56,9 +57,11 @@ if (username == credentials["student"]["username"] and password == credentials["
     st.write('Current date:', current_date)
 
     # add a dropdown for the options
-    if username == 'bos18002@byui.edu' and password == 'admin':
+    if username == credentials["admin"]["username"] and password == credentials["admin"]["password"]:
         st.write("To reset the database, you must select the `Select An Option` choice first, then select `Reset Database`")
         username = 'Admin'
+        user_check = user(studentcursor, projectdb)
+        user_check.create_user(username)
         options = ['Select An Option','Reset Database', 'Add Project', 'Update Project', 'Delete Project']
         option = st.selectbox('Select an option', options)
     else:
@@ -75,25 +78,8 @@ if (username == credentials["student"]["username"] and password == credentials["
 
     elif option == 'Add Project':
         # print(f'USERS: {users}')
-        users = ''
-        try:
-            # insert the user into the database if they are not already there
-            studentcursor.execute("SELECT username FROM user")
-            users = studentcursor.fetchall()
-            users = format_list(users)
-        except sqlite3.Error as err:
-            st.write(f'Table does not exist: {err}')
-
-        if username not in users:
-            # print('User does not exist in the database')
-            st.write('User does not exist in the database')
-            studentcursor.execute("INSERT INTO user (username) VALUES (?)", (username,))
-            projectdb.commit()
-            st.write('User inserted into the database')
-
-        if username in users:
-            st.write(f'`{username}` user active')
-            # st.write(f"USER ID: {user_id}")
+        st.write(f'`{username}` user active')
+        # st.write(f"USER ID: {user_id}")
 
 
         
