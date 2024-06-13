@@ -30,8 +30,6 @@ projectdb = sqlite3.connect('project.db')
 studentcursor = projectdb.cursor()
 
 
-first_time = ''
-user_input = ''
 placeholder1 = st.empty()
 placeholder = st.empty()
 username = placeholder1.text_input('Enter your username: ', key='1')
@@ -43,22 +41,11 @@ password = placeholder.text_input('Enter your password: ', type='password', key=
 if (username == credentials["student"]["username"] and password == credentials["student"]["password"]) or (username == credentials["admin"]["username"] and password == credentials["admin"]["password"]):
     st.success('Login successful!')
     st.write('\n')
-    # logout = st.button('Logout')
-
-    # if logout:
-    #     st.write('Logout successful!')
-    #     username = placeholder1.text_input('Enter your username: ', key='3')
-    #     password = placeholder.text_input('Enter your password: ', type='password', key='4')
-    #     username = None
-    #     password = None
-    #     # stop the program
-    #     st.stop()
-    
+    # current_date = '2024-04-01'
 
     # The current date
     now = datetime.now()
     current_date = now.strftime("%Y-%m-%d")
-    # current_date = '2024-04-01'
     st.write('Current date:', current_date)
 
     # add a dropdown for the options
@@ -86,8 +73,6 @@ if (username == credentials["student"]["username"] and password == credentials["
         st.write(f'`{username}` user active')
         # st.write(f"USER ID: {user_id}")
 
-
-        
         project_name = st.text_input('Enter the project name: ')
         project_description = st.text_input('Enter the project description: ')
         confirm_insert = st.button('Insert data')
