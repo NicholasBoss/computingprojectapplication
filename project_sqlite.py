@@ -118,8 +118,6 @@ if (username == credentials["student"]["username"] and password == credentials["
                 confirm_name_update = st.button('Update Project Name')
                 if confirm_name_update:
                     new_project_name = new_project_name
-                    # unchecked the checkbox
-                    
             else:
                 new_project_name = None
 
